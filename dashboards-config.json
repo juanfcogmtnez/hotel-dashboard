@@ -1,0 +1,225 @@
+{
+  "dashboards": {
+    "overview": {
+      "title": "Overview General",
+      "icon": "speedometer2",
+      "description": "Vista general de todos los indicadores principales",
+      "enabled": true,
+      "permissions": ["admin", "executive", "regional_manager", "hotel_manager", "demo"],
+      "cards": [
+        {
+          "type": "sum",
+          "label": "Inversión Total",
+          "field_key": "Amount",
+          "format": "currency"
+        },
+        {
+          "type": "count_rows",
+          "label": "Total Proyectos"
+        },
+        {
+          "type": "count_distinct",
+          "label": "Hoteles Únicos",
+          "field_key": "Hotel"
+        }
+      ],
+      "charts": [
+        {
+          "title": "Importe por Proyecto",
+          "type": "bar",
+          "group_by_key": "Project",
+          "value_key": "Amount"
+        },
+        {
+          "title": "Evolución Mensual",
+          "type": "line",
+          "group_by_key": "Date",
+          "value_key": "Amount"
+        }
+      ],
+      "show_table": true
+    },
+    "financial": {
+      "title": "Dashboard Financiero",
+      "icon": "currency-dollar",
+      "description": "Análisis financiero detallado y presupuestos",
+      "enabled": true,
+      "permissions": ["admin", "executive", "regional_manager"],
+      "cards": [
+        {
+          "type": "sum",
+          "label": "Total Invertido",
+          "field_key": "Amount",
+          "format": "currency"
+        },
+        {
+          "type": "custom",
+          "label": "Año Actual",
+          "calculation": "current_year_sum",
+          "field_key": "Amount",
+          "format": "currency"
+        },
+        {
+          "type": "custom",
+          "label": "Promedio Proyecto",
+          "calculation": "average",
+          "field_key": "Amount",
+          "format": "currency"
+        }
+      ],
+      "charts": [
+        {
+          "title": "Inversión por Hotel",
+          "type": "bar",
+          "group_by_key": "Hotel",
+          "value_key": "Amount",
+          "enable_comparison": true,
+          "comparison_type": "year_over_year"
+        },
+        {
+          "title": "Tendencia de Gastos",
+          "type": "line",
+          "group_by_key": "Date",
+          "value_key": "Amount",
+          "enable_comparison": true,
+          "comparison_type": "year_over_year"
+        },
+        {
+          "title": "Distribución por Región",
+          "type": "pie",
+          "group_by_key": "Region",
+          "value_key": "Amount"
+        }
+      ],
+      "show_table": false
+    },
+    "operations": {
+      "title": "Dashboard Operaciones",
+      "icon": "gear-wide-connected",
+      "description": "Métricas operativas y eficiencia",
+      "enabled": true,
+      "permissions": ["admin", "regional_manager", "hotel_manager"],
+      "cards": [
+        {
+          "type": "count_rows",
+          "label": "Proyectos Activos"
+        },
+        {
+          "type": "count_distinct",
+          "label": "Tipos de Proyecto",
+          "field_key": "Type"
+        },
+        {
+          "type": "custom",
+          "label": "Proyectos este Mes",
+          "calculation": "current_month_count"
+        }
+      ],
+      "charts": [
+        {
+          "title": "Proyectos por Tipo",
+          "type": "bar",
+          "group_by_key": "Type",
+          "value_key": "Amount"
+        },
+        {
+          "title": "Timeline de Proyectos",
+          "type": "line",
+          "group_by_key": "Date",
+          "value_key": "Amount"
+        }
+      ],
+      "show_table": true
+    },
+    "projects": {
+      "title": "Gestión de Proyectos",
+      "icon": "kanban",
+      "description": "Estado y seguimiento de proyectos",
+      "enabled": true,
+      "permissions": ["admin", "regional_manager", "hotel_manager"],
+      "show_table": true,
+      "table_config": {
+        "sortable": true,
+        "searchable": true,
+        "export": true
+      }
+    },
+    "analytics": {
+      "title": "Analytics Avanzado",
+      "icon": "graph-up-arrow",
+      "description": "Análisis predictivo y tendencias",
+      "enabled": true,
+      "permissions": ["admin", "executive"],
+      "charts": [
+        {
+          "title": "Análisis de Varianza YoY",
+          "type": "bar",
+          "group_by_key": "Hotel",
+          "value_key": "Amount",
+          "enable_comparison": true,
+          "comparison_type": "year_over_year"
+        },
+        {
+          "title": "Tendencia Acumulada",
+          "type": "line",
+          "group_by_key": "Date",
+          "value_key": "Amount",
+          "cumulative": true
+        }
+      ]
+    },
+    "trends": {
+      "title": "Análisis de Tendencias",
+      "icon": "activity",
+      "description": "Proyecciones y forecasting",
+      "enabled": true,
+      "permissions": ["admin", "executive"],
+      "charts": []
+    },
+    "reports": {
+      "title": "Centro de Reportes",
+      "icon": "file-earmark-bar-graph",
+      "description": "Generación de reportes personalizados",
+      "enabled": true,
+      "permissions": ["admin", "executive", "regional_manager"],
+      "custom_content": "reports_center"
+    },
+    "exports": {
+      "title": "Exportar Datos",
+      "icon": "download",
+      "description": "Exportación a Excel, PDF, CSV",
+      "enabled": true,
+      "permissions": ["admin", "executive", "regional_manager"],
+      "export_formats": ["excel", "pdf", "csv", "json"]
+    }
+  },
+  "navigation": {
+    "sidebar": {
+      "sections": [
+        {
+          "title": "Dashboards",
+          "items": ["overview", "financial", "operations", "projects"]
+        },
+        {
+          "title": "Análisis",
+          "items": ["analytics", "trends"]
+        },
+        {
+          "title": "Reportes",
+          "items": ["reports", "exports"]
+        }
+      ]
+    },
+    "top_tabs": {
+      "enabled": true,
+      "show_all": true
+    }
+  },
+  "theme": {
+    "primary_color": "#1E90FF",
+    "secondary_color": "#001f3f",
+    "success_color": "#10b981",
+    "warning_color": "#f59e0b",
+    "danger_color": "#ef4444"
+  }
+}

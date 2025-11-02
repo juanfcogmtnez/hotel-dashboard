@@ -1,0 +1,132 @@
+{
+  "users": [
+    {
+      "username": "admin",
+      "password": "admin123",
+      "name": "Administrador General",
+      "role": "admin",
+      "email": "admin@company.com",
+      "permissions": {
+        "hotels": ["ALL"],
+        "regions": ["ALL"],
+        "access_level": "full"
+      }
+    },
+    {
+      "username": "manager.alatg",
+      "password": "alatg123",
+      "name": "Manager ALATG",
+      "role": "hotel_manager",
+      "email": "manager.alatg@company.com",
+      "permissions": {
+        "hotels": ["ALATG"],
+        "regions": ["North America"],
+        "access_level": "write"
+      }
+    },
+    {
+      "username": "manager.drcam",
+      "password": "drcam123",
+      "name": "Manager DRCAM",
+      "role": "hotel_manager",
+      "email": "manager.drcam@company.com",
+      "permissions": {
+        "hotels": ["DRCAM"],
+        "regions": ["Europe"],
+        "access_level": "write"
+      }
+    },
+    {
+      "username": "viewer.asia",
+      "password": "asia123",
+      "name": "Viewer Asia Region",
+      "role": "regional_viewer",
+      "email": "viewer.asia@company.com",
+      "permissions": {
+        "hotels": ["ASMAL"],
+        "regions": ["Asia"],
+        "access_level": "read"
+      }
+    },
+    {
+      "username": "manager.europe",
+      "password": "europe123",
+      "name": "Regional Manager Europe",
+      "role": "regional_manager",
+      "email": "manager.europe@company.com",
+      "permissions": {
+        "hotels": ["DRCAM", "BXLUX"],
+        "regions": ["Europe"],
+        "access_level": "write"
+      }
+    },
+    {
+      "username": "cfo",
+      "password": "cfo123",
+      "name": "Chief Financial Officer",
+      "role": "executive",
+      "email": "cfo@company.com",
+      "permissions": {
+        "hotels": ["ALL"],
+        "regions": ["ALL"],
+        "access_level": "read"
+      }
+    },
+    {
+      "username": "demo",
+      "password": "demo",
+      "name": "Usuario Demo",
+      "role": "demo",
+      "email": "demo@company.com",
+      "permissions": {
+        "hotels": ["ALATG", "DRCAM"],
+        "regions": ["North America", "Europe"],
+        "access_level": "read"
+      }
+    }
+  ],
+  "roles": {
+    "admin": {
+      "label": "Administrador",
+      "description": "Acceso total al sistema",
+      "can_manage_users": true,
+      "can_export": true,
+      "can_edit_config": true
+    },
+    "executive": {
+      "label": "Ejecutivo",
+      "description": "Vista completa, solo lectura",
+      "can_manage_users": false,
+      "can_export": true,
+      "can_edit_config": false
+    },
+    "regional_manager": {
+      "label": "Manager Regional",
+      "description": "Gestión de hoteles en su región",
+      "can_manage_users": false,
+      "can_export": true,
+      "can_edit_config": false
+    },
+    "hotel_manager": {
+      "label": "Manager de Hotel",
+      "description": "Gestión de su hotel específico",
+      "can_manage_users": false,
+      "can_export": true,
+      "can_edit_config": false
+    },
+    "regional_viewer": {
+      "label": "Visualizador Regional",
+      "description": "Solo lectura de su región",
+      "can_manage_users": false,
+      "can_export": false,
+      "can_edit_config": false
+    },
+    "demo": {
+      "label": "Demo",
+      "description": "Usuario de demostración",
+      "can_manage_users": false,
+      "can_export": false,
+      "can_edit_config": false
+    }
+  }
+}
