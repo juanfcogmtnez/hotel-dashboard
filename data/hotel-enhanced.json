@@ -1,82 +1,82 @@
 [
-    {
-      "Hotel": "ALATG",
-      "Region": "North America",
-      "Type": "Maintenance",
-      "Project": "Fire Pump Replacement",
-      "Amount": 12000,
-      "Date": "2025-01-10"
-    },
-    {
-      "Hotel": "DRCAM",
-      "Region": "Europe",
-      "Type": "Maintenance",
-      "Project": "Boiler Maintenance",
-      "Amount": 3400,
-      "Date": "2025-01-15"
-    },
-    {
-      "Hotel": "ASMAL",
-      "Region": "Asia",
-      "Type": "Renovation",
-      "Project": "Room Refurb",
-      "Amount": 28000,
-      "Date": "2025-02-02"
-    },
-    {
-      "Hotel": "ALATG",
-      "Region": "North America",
-      "Type": "Marketing",
-      "Project": "Signage Update",
-      "Amount": 1500,
-      "Date": "2025-02-18"
-    },
-    {
-      "Hotel": "ALATG",
-      "Region": "North America",
-      "Type": "Maintenance",
-      "Project": "Fire Pump Replacement",
-      "Amount": 10000,
-      "Date": "2024-01-12"
-    },
-    {
-      "Hotel": "DRCAM",
-      "Region": "Europe",
-      "Type": "Maintenance",
-      "Project": "Boiler Maintenance",
-      "Amount": 3000,
-      "Date": "2024-01-20"
-    },
-    {
-      "Hotel": "ASMAL",
-      "Region": "Asia",
-      "Type": "Renovation",
-      "Project": "Room Refurb",
-      "Amount": 25000,
-      "Date": "2024-02-05"
-    },
-    {
-      "Hotel": "ALATG",
-      "Region": "North America",
-      "Type": "Marketing",
-      "Project": "Signage Update",
-      "Amount": 1200,
-      "Date": "2024-02-25"
-    },
-    {
-      "Hotel": "BXLUX",
-      "Region": "Europe",
-      "Type": "Renovation",
-      "Project": "Lobby Redesign",
-      "Amount": 45000,
-      "Date": "2025-03-10"
-    },
-    {
-      "Hotel": "BXLUX",
-      "Region": "Europe",
-      "Type": "Renovation",
-      "Project": "Lobby Redesign",
-      "Amount": 40000,
-      "Date": "2024-03-15"
-    }
-  ]
+  {
+    "Hotel": "ALATG",
+    "Region": "North America",
+    "Type": "Maintenance",
+    "Project": "Fire Pump Replacement",
+    "Amount": 12000,
+    "Date": "2025-01-10"
+  },
+  {
+    "Hotel": "DRCAM",
+    "Region": "Europe",
+    "Type": "Maintenance",
+    "Project": "Boiler Maintenance",
+    "Amount": 3400,
+    "Date": "2025-01-15"
+  },
+  {
+    "Hotel": "ASMAL",
+    "Region": "Asia",
+    "Type": "Renovation",
+    "Project": "Room Refurb",
+    "Amount": 28000,
+    "Date": "2025-02-02"
+  },
+  {
+    "Hotel": "ALATG",
+    "Region": "North America",
+    "Type": "Marketing",
+    "Project": "Signage Update",
+    "Amount": 1500,
+    "Date": "2025-02-18"
+  },
+  {
+    "Hotel": "ALATG",
+    "Region": "North America",
+    "Type": "Maintenance",
+    "Project": "Fire Pump Replacement",
+    "Amount": 10000,
+    "Date": "2024-01-12"
+  },
+  {
+    "Hotel": "DRCAM",
+    "Region": "Europe",
+    "Type": "Maintenance",
+    "Project": "Boiler Maintenance",
+    "Amount": 3000,
+    "Date": "2024-01-20"
+  },
+  {
+    "Hotel": "ASMAL",
+    "Region": "Asia",
+    "Type": "Renovation",
+    "Project": "Room Refurb",
+    "Amount": 25000,
+    "Date": "2024-02-05"
+  },
+  {
+    "Hotel": "ALATG",
+    "Region": "North America",
+    "Type": "Marketing",
+    "Project": "Signage Update",
+    "Amount": 1200,
+    "Date": "2024-02-25"
+  },
+  {
+    "Hotel": "BXLUX",
+    "Region": "Europe",
+    "Type": "Renovation",
+    "Project": "Lobby Redesign",
+    "Amount": 45000,
+    "Date": "2025-03-10"
+  },
+  {
+    "Hotel": "BXLUX",
+    "Region": "Europe",
+    "Type": "Renovation",
+    "Project": "Lobby Redesign",
+    "Amount": 40000,
+    "Date": "2024-03-15"
+  }
+]
