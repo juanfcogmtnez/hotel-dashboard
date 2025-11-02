@@ -1,53 +1,53 @@
 {
-    "cards": [
-      {
-        "type": "sum",
-        "label": "Importe Total",
-        "field_key": "Amount",
-        "format": "currency"
-      },
-      {
-        "type": "count_rows",
-        "label": "Total Proyectos"
-      },
-      {
-        "type": "count_distinct",
-        "label": "Hoteles Únicos",
-        "field_key": "Hotel"
-      }
-    ],
-    "charts": [
-      {
-        "title": "Importe por Categoría",
-        "type": "bar",
-        "group_by_key": "Project|Category|Plan",
-        "value_key": "Amount|Sales|MRR",
-        "enable_comparison": true,
-        "comparison_type": "year_over_year",
-        "enable_filters": true,
-        "filter_fields": ["Hotel", "Region", "Type"]
-      },
-      {
-        "title": "Evolución Mensual",
-        "type": "line",
-        "group_by_key": "Date",
-        "value_key": "Amount|Sales|MRR",
-        "timebucket": "month",
-        "enable_comparison": true,
-        "comparison_type": "year_over_year",
-        "enable_filters": true,
-        "filter_fields": ["Hotel", "Region"]
-      },
-      {
-        "title": "Top Proyectos",
-        "type": "bar",
-        "group_by_key": "Project",
-        "value_key": "Amount",
-        "enable_comparison": false,
-        "enable_filters": true,
-        "filter_fields": ["Hotel", "Region"],
-        "limit": 10,
-        "sort": "desc"
-      }
-    ]
-  }
+  "cards": [
+    {
+      "type": "sum",
+      "label": "Importe Total",
+      "field_key": "Amount",
+      "format": "currency"
+    },
+    {
+      "type": "count_rows",
+      "label": "Total Proyectos"
+    },
+    {
+      "type": "count_distinct",
+      "label": "Hoteles Únicos",
+      "field_key": "Hotel"
+    }
+  ],
+  "charts": [
+    {
+      "title": "Importe por Categoría",
+      "type": "bar",
+      "group_by_key": "Project|Category|Plan",
+      "value_key": "Amount|Sales|MRR",
+      "enable_comparison": true,
+      "comparison_type": "year_over_year",
+      "enable_filters": true,
+      "filter_fields": ["Hotel", "Region", "Type"]
+    },
+    {
+      "title": "Evolución Mensual",
+      "type": "line",
+      "group_by_key": "Date",
+      "value_key": "Amount|Sales|MRR",
+      "timebucket": "month",
+      "enable_comparison": true,
+      "comparison_type": "year_over_year",
+      "enable_filters": true,
+      "filter_fields": ["Hotel", "Region"]
+    },
+    {
+      "title": "Top Proyectos",
+      "type": "bar",
+      "group_by_key": "Project",
+      "value_key": "Amount",
+      "enable_comparison": false,
+      "enable_filters": true,
+      "filter_fields": ["Hotel", "Region"],
+      "limit": 10,
+      "sort": "desc"
+    }
+  ]
+}
