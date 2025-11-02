@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MainReports - Multi Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link href="https://cdn.datatables.net/1.13.8/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand-navy: #001f3f;
+      --brand-accent: #1E90FF;
+      --sidebar-width: 260px;
+      --topbar-height: 64px;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f5f6fa;
+      overflow-x: hidden;
+    }
+    
+    /* Login Screen */
+    .login-screen {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .login-container {
+      max-width: 420px;
+      width: 100%;
+      padding: 20px;
+    }
+    
+    .login-card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+    }
+    
+    .login-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 40px 30px;
+      text-align: center;
+      color: white;
+    }
+    
+    .login-header h1 {
+      font-size: 28px;
+      font-weight: 600;
+      margin: 10px 0;
+    }
+    
+    .login-body {
+      padding: 40px 30px;
+    }
+    
+    .form-floating { margin-bottom: 20px; }
+    
+    .form-control {
+      border-radius: 8px;
+      border: 2px solid #e0e0e0;
+      padding: 12px 15px;
+    }
+    
+    .btn-login {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      font-weight: 600;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border: none;
+      color: white;
+      transition: transform 0.2s;
+    }
+    
+    .btn-login:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+    }
+    
+    .demo-users {
+      background: #f8f9fa;
+      border-radius: 8px;
+      padding: 15px;
+      margin-top: 20px;
+      font-size: 12px;
+    }
+    
+    /* Dashboard Styles */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: var(--sidebar-width);
+      height: 100vh;
+      background: var(--brand-navy);
+      color: white;
+      z-index: 1000;
+      overflow-y: auto;
+    }
+    
+    .sidebar-header {
+      padding: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .sidebar-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: white;
+    }
+    
+    .sidebar-brand-text {
+      font-size: 20px;
+      font-weight: 700;
+    }
+    
+    .sidebar-menu { padding: 20px 0; }
+    
+    .menu-section-title {
+      padding: 8px 20px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: 20px;
+    }
+    
+    .menu-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
+      color: rgba(255, 255, 255, 0.8);
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+    
+    .menu-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+    }
+    
+    .menu-item.active {
+      background: rgba(255, 255, 255, 0.15);
+      color: white;
+      font-weight: 600;
+    }
+    
+    .menu-item.active::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: var(--brand-accent);
+    }
+    
+    .menu-item i {
+      font-size: 18px;
+      width: 24px;
+      margin-right: 12px;
+    }
+    
+    .topbar {
+      position: fixed;
+      top: 0;
+      left: var(--sidebar-width);
+      right: 0;
+      height: var(--topbar-height);
+      background: white;
+      border-bottom: 1px solid #e5e7eb;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 30px;
+      z-index: 999;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+    
+    .topbar-left h1 {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1f2937;
+      margin: 0;
+    }
+    
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    
+    .user-badge {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 16px;
+      background: #f9fafb;
+      border-radius: 8px;
+      position: relative;
+      cursor: pointer;
+    }
+    
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--brand-accent);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    
+    .user-info { display: flex; flex-direction: column; }
+    
+    .user-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1f2937;
+    }
+    
+    .user-role {
+      font-size: 12px;
+      color: #6b7280;
+    }
+    
+    .dropdown-menu-custom {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      margin-top: 8px;
+      background: white;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      min-width: 250px;
+      display: none;
+      z-index: 1000;
+    }
+    
+    .user-badge:hover .dropdown-menu-custom { display: block; }
+    
+    .dropdown-item-custom {
+      padding: 10px 16px;
+      color: #4b5563;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+    
+    .dropdown-item-custom:hover { background: #f9fafb; }
+    
+    .main-content {
+      margin-left: var(--sidebar-width);
+      margin-top: var(--topbar-height);
+      padding: 0;
+      min-height: calc(100vh - var(--topbar-height));
+    }
+    
+    /* Tabs Navigation */
+    .tabs-container {
+      background: white;
+      border-bottom: 2px solid #e5e7eb;
+      padding: 0 30px;
+      display: flex;
+      gap: 5px;
+      overflow-x: auto;
+    }
+    
+    .tab-button {
+      padding: 16px 24px;
+      border: none;
+      background: transparent;
+      color: #6b7280;
+      font-weight: 500;
+      font-size: 15px;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.2s;
+      border-bottom: 3px solid transparent;
+      white-space: nowrap;
+    }
+    
+    .tab-button:hover {
+      color: #1f2937;
+      background: #f9fafb;
+    }
+    
+    .tab-button.active {
+      color: var(--brand-accent);
+      border-bottom-color: var(--brand-accent);
+      font-weight: 600;
+    }
+    
+    .tab-button i {
+      margin-right: 8px;
+    }
+    
+    .tab-content {
+      display: none;
+      padding: 30px;
+    }
+    
+    .tab-content.active {
+      display: block;
+      animation: fadeIn 0.3s;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .access-warning {
+      background: #fef3c7;
+      border: 1px solid #fbbf24;
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-bottom: 30px;
+    }
+    
+    .kpi-card {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e5e7eb;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .kpi-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .kpi-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--brand-accent);
+    }
+    
+    .kpi-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    
+    .kpi-value {
+      font-size: 32px;
+      font-weight: 700;
+      color: #1f2937;
+      line-height: 1.2;
+    }
+    
+    .kpi-icon {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--brand-accent), var(--brand-navy));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 24px;
+    }
+    
+    .chart-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+      gap: 24px;
+      margin-bottom: 30px;
+    }
+    
+    .chart-card {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e5e7eb;
+    }
+    
+    .chart-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 20px;
+    }
+    
+    .chart-container {
+      position: relative;
+      height: 350px;
+    }
+    
+    .table-card {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e5e7eb;
+    }
+    
+    .table-card h5 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 20px;
+    }
+    
+    .info-box {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+      border: 1px solid #e5e7eb;
+      text-align: center;
+    }
+    
+    .info-box i {
+      font-size: 64px;
+      color: var(--brand-accent);
+      margin-bottom: 20px;
+    }
+    
+    .info-box h3 {
+      font-size: 24px;
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 10px;
+    }
+    
+    .info-box p {
+      color: #6b7280;
+      margin-bottom: 0;
+    }
+    
+    .hidden { display: none !important; }
+    
+    .loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 400px;
+      font-size: 18px;
+      color: #6b7280;
+    }
+  </style>
+</head>
+<body>
+  <!-- Login Screen -->
+  <div id="loginScreen" class="login-screen">
+    <div class="login-container">
+      <div class="login-card">
+        <div class="login-header">
+          <i class="bi bi-shield-lock-fill" style="font-size: 48px;"></i>
+          <h1>MainReports</h1>
+          <p>Sistema Multi-Dashboard</p>
+        </div>
+        <div class="login-body">
+          <div id="loginError" class="alert alert-danger d-none">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            <span id="loginErrorMessage"></span>
+          </div>
+          
+          <form id="loginForm">
+            <div class="form-floating">
+              <input type="text" class="form-control" id="username" placeholder="Usuario" required autofocus>
+              <label for="username"><i class="bi bi-person-fill me-2"></i>Usuario</label>
+            </div>
+            
+            <div class="form-floating">
+              <input type="password" class="form-control" id="password" placeholder="Contraseña" required>
+              <label for="password"><i class="bi bi-lock-fill me-2"></i>Contraseña</label>
+            </div>
+            
+            <button type="submit" class="btn btn-login">
+              <i class="bi bi-box-arrow-in-right me-2"></i>Iniciar Sesión
+            </button>
+          </form>
+          
+          <div class="demo-users">
+            <strong><i class="bi bi-info-circle-fill"></i> Usuarios de Prueba</strong>
+            <div style="margin-top: 10px; font-size: 11px;">
+              admin/admin123 • cfo/cfo123 • demo/demo
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dashboard -->
+  <div id="dashboardScreen" class="hidden">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-brand">
+          <i class="bi bi-bar-chart-fill" style="font-size: 36px;"></i>
+          <span class="sidebar-brand-text">MainReports</span>
+        </div>
+      </div>
+      
+      <nav class="sidebar-menu">
+        <div class="menu-section-title">Dashboards</div>
+        <div class="menu-item active" data-tab="overview">
+          <i class="bi bi-speedometer2"></i>
+          <span>Overview General</span>
+        </div>
+        <div class="menu-item" data-tab="financial">
+          <i class="bi bi-currency-dollar"></i>
+          <span>Financiero</span>
+        </div>
+        <div class="menu-item" data-tab="operations">
+          <i class="bi bi-gear-wide-connected"></i>
+          <span>Operaciones</span>
+        </div>
+        <div class="menu-item" data-tab="projects">
+          <i class="bi bi-kanban"></i>
+          <span>Proyectos</span>
+        </div>
+        
+        <div class="menu-section-title">Análisis</div>
+        <div class="menu-item" data-tab="analytics">
+          <i class="bi bi-graph-up-arrow"></i>
+          <span>Analytics</span>
+        </div>
+        <div class="menu-item" data-tab="trends">
+          <i class="bi bi-activity"></i>
+          <span>Tendencias</span>
+        </div>
+        
+        <div class="menu-section-title">Reportes</div>
+        <div class="menu-item" data-tab="reports">
+          <i class="bi bi-file-earmark-bar-graph"></i>
+          <span>Reportes</span>
+        </div>
+        <div class="menu-item" data-tab="exports">
+          <i class="bi bi-download"></i>
+          <span>Exportaciones</span>
+        </div>
+      </nav>
+    </aside>
+
+    <!-- Topbar -->
+    <header class="topbar">
+      <div class="topbar-left">
+        <h1 id="pageTitle">Overview General</h1>
+      </div>
+      
+      <div class="topbar-right">
+        <div class="user-badge">
+          <div class="user-avatar" id="userAvatar">U</div>
+          <div class="user-info">
+            <div class="user-name" id="userName">Usuario</div>
+            <div class="user-role" id="userRole">Rol</div>
+          </div>
+          <i class="bi bi-chevron-down"></i>
+          <div class="dropdown-menu-custom">
+            <div id="userPermissionsInfo"></div>
+            <hr style="margin: 8px 0;">
+            <div class="dropdown-item-custom" onclick="logout()">
+              <i class="bi bi-box-arrow-right"></i>
+              <span>Cerrar Sesión</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content with Tabs -->
+    <main class="main-content">
+      <!-- Tabs Navigation -->
+      <div class="tabs-container">
+        <button class="tab-button active" data-tab="overview">
+          <i class="bi bi-speedometer2"></i>Overview
+        </button>
+        <button class="tab-button" data-tab="financial">
+          <i class="bi bi-currency-dollar"></i>Financiero
+        </button>
+        <button class="tab-button" data-tab="operations">
+          <i class="bi bi-gear-wide-connected"></i>Operaciones
+        </button>
+        <button class="tab-button" data-tab="projects">
+          <i class="bi bi-kanban"></i>Proyectos
+        </button>
+        <button class="tab-button" data-tab="analytics">
+          <i class="bi bi-graph-up-arrow"></i>Analytics
+        </button>
+        <button class="tab-button" data-tab="trends">
+          <i class="bi bi-activity"></i>Tendencias
+        </button>
+        <button class="tab-button" data-tab="reports">
+          <i class="bi bi-file-earmark-bar-graph"></i>Reportes
+        </button>
+        <button class="tab-button" data-tab="exports">
+          <i class="bi bi-download"></i>Exportar
+        </button>
+      </div>
+
+      <!-- Tab Contents -->
+      
+      <!-- Overview Tab -->
+      <div id="tab-overview" class="tab-content active">
+        <div id="accessWarning" class="access-warning hidden">
+          <i class="bi bi-shield-check"></i>
+          <div>
+            <strong>Acceso Restringido</strong>
+            <div id="accessWarningText"></div>
+          </div>
+        </div>
+        
+        <div class="kpi-grid" id="overviewKpis"></div>
+        <div class="chart-grid" id="overviewCharts"></div>
+        <div class="table-card">
+          <h5><i class="bi bi-table me-2"></i>Datos Recientes</h5>
+          <table id="overviewTable" class="table table-hover" style="width:100%"></table>
+        </div>
+      </div>
+
+      <!-- Financial Tab -->
+      <div id="tab-financial" class="tab-content">
+        <div class="kpi-grid" id="financialKpis"></div>
+        <div class="chart-grid" id="financialCharts"></div>
+      </div>
+
+      <!-- Operations Tab -->
+      <div id="tab-operations" class="tab-content">
+        <div class="info-box">
+          <i class="bi bi-gear-wide-connected"></i>
+          <h3>Dashboard de Operaciones</h3>
+          <p>Métricas operativas y KPIs de rendimiento por hotel</p>
+        </div>
+      </div>
+
+      <!-- Projects Tab -->
+      <div id="tab-projects" class="tab-content">
+        <div class="table-card">
+          <h5><i class="bi bi-kanban me-2"></i>Proyectos Activos</h5>
+          <table id="projectsTable" class="table table-hover" style="width:100%"></table>
+        </div>
+      </div>
+
+      <!-- Analytics Tab -->
+      <div id="tab-analytics" class="tab-content">
+        <div class="chart-grid" id="analyticsCharts"></div>
+      </div>
+
+      <!-- Trends Tab -->
+      <div id="tab-trends" class="tab-content">
+        <div class="info-box">
+          <i class="bi bi-activity"></i>
+          <h3>Análisis de Tendencias</h3>
+          <p>Proyecciones y análisis predictivo de datos históricos</p>
+        </div>
+      </div>
+
+      <!-- Reports Tab -->
+      <div id="tab-reports" class="tab-content">
+        <div class="info-box">
+          <i class="bi bi-file-earmark-bar-graph"></i>
+          <h3>Centro de Reportes</h3>
+          <p>Genera y descarga reportes personalizados</p>
+        </div>
+      </div>
+
+      <!-- Exports Tab -->
+      <div id="tab-exports" class="tab-content">
+        <div class="info-box">
+          <i class="bi bi-download"></i>
+          <h3>Exportar Datos</h3>
+          <p>Exporta datos a Excel, PDF o CSV</p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.8/js/dataTables.bootstrap5.min.js"></script>
+  
+  <script>
+    // ============================================
+    // CONFIGURACIÓN
+    // ============================================
+    
+    const CONFIG = {
+      users: './config/users.json',
+      data: './data/hotel-enhanced.json',
+      config: './config/dashboard-enhanced.json'
+    };
+    
+    const TAB_TITLES = {
+      overview: 'Overview General',
+      financial: 'Dashboard Financiero',
+      operations: 'Dashboard Operaciones',
+      projects: 'Gestión de Proyectos',
+      analytics: 'Analytics Avanzado',
+      trends: 'Análisis de Tendencias',
+      reports: 'Centro de Reportes',
+      exports: 'Exportar Datos'
+    };
+    
+    // ============================================
+    // VARIABLES GLOBALES
+    // ============================================
+    
+    let currentUser = null;
+    let usersData = null;
+    let currentData = [];
+    let currentConfig = {};
+    let chartInstances = [];
+    let dataTables = {};
+    let currentTab = 'overview';
+    
+    // ============================================
+    // AUTENTICACIÓN
+    // ============================================
+    
+    async function loadUsers() {
+      try {
+        const response = await fetch(CONFIG.users);
+        usersData = await response.json();
+        return usersData;
+      } catch (error) {
+        console.error('Error loading users:', error);
+        return null;
+      }
+    }
+    
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      await login();
+    });
+    
+    async function login() {
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      
+      if (!usersData) await loadUsers();
+      
+      const user = usersData.users.find(u => u.username === username && u.password === password);
+      
+      if (user) {
+        currentUser = user;
+        sessionStorage.setItem('currentUser', JSON.stringify(user));
+        showDashboard();
+      } else {
+        document.getElementById('loginErrorMessage').textContent = 'Usuario o contraseña incorrectos';
+        document.getElementById('loginError').classList.remove('d-none');
+      }
+    }
+    
+    function logout() {
+      currentUser = null;
+      sessionStorage.removeItem('currentUser');
+      document.getElementById('loginScreen').classList.remove('hidden');
+      document.getElementById('dashboardScreen').classList.add('hidden');
+      document.getElementById('username').value = '';
+      document.getElementById('password').value = '';
+    }
+    
+    function checkSession() {
+      const savedUser = sessionStorage.getItem('currentUser');
+      if (savedUser) {
+        currentUser = JSON.parse(savedUser);
+        showDashboard();
+      }
+    }
+    
+    function showDashboard() {
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('dashboardScreen').classList.remove('hidden');
+      updateUserInfo();
+      loadData();
+    }
+    
+    function updateUserInfo() {
+      const initials = currentUser.name.split(' ').map(n => n[0]).join('').substring(0, 2);
+      document.getElementById('userAvatar').textContent = initials;
+      document.getElementById('userName').textContent = currentUser.name;
+      document.getElementById('userRole').textContent = usersData.roles[currentUser.role].label;
+      
+      const permissionsInfo = document.getElementById('userPermissionsInfo');
+      const hotels = currentUser.permissions.hotels.includes('ALL') 
+        ? 'Todos los hoteles' 
+        : currentUser.permissions.hotels.join(', ');
+      
+      permissionsInfo.innerHTML = `
+        <div class="dropdown-item-custom">
+          <i class="bi bi-building"></i>
+          <div>
+            <strong>Hoteles:</strong>
+            <div style="font-size: 11px; color: #6b7280;">${hotels}</div>
+          </div>
+        </div>
+      `;
+      
+      if (!currentUser.permissions.hotels.includes('ALL')) {
+        document.getElementById('accessWarning').classList.remove('hidden');
+        document.getElementById('accessWarningText').textContent = 
+          `Mostrando solo datos de: ${currentUser.permissions.hotels.join(', ')}`;
+      }
+    }
+    
+    // ============================================
+    // NAVEGACIÓN DE TABS
+    // ============================================
+    
+    function initTabNavigation() {
+      // Tab buttons en topbar
+      document.querySelectorAll('.tab-button').forEach(button => {
+        button.addEventListener('click', () => {
+          const tabId = button.getAttribute('data-tab');
+          switchTab(tabId);
+        });
+      });
+      
+      // Menu items en sidebar
+      document.querySelectorAll('.menu-item').forEach(item => {
+        item.addEventListener('click', () => {
+          const tabId = item.getAttribute('data-tab');
+          if (tabId) {
+            switchTab(tabId);
+          }
+        });
+      });
+    }
+    
+    function switchTab(tabId) {
+      currentTab = tabId;
+      
+      // Update tab buttons
+      document.querySelectorAll('.tab-button').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-tab') === tabId);
+      });
+      
+      // Update menu items
+      document.querySelectorAll('.menu-item').forEach(item => {
+        item.classList.toggle('active', item.getAttribute('data-tab') === tabId);
+      });
+      
+      // Update tab contents
+      document.querySelectorAll('.tab-content').forEach(content => {
+        content.classList.remove('active');
+      });
+      document.getElementById(`tab-${tabId}`).classList.add('active');
+      
+      // Update title
+      document.getElementById('pageTitle').textContent = TAB_TITLES[tabId] || 'Dashboard';
+      
+      // Load tab content if needed
+      loadTabContent(tabId);
+    }
+    
+    // ============================================
+    // CARGA DE DATOS
+    // ============================================
+    
+    function filterDataByPermissions(data) {
+      if (currentUser.permissions.hotels.includes('ALL')) return data;
+      
+      return data.filter(row => {
+        if (row.Hotel && !currentUser.permissions.hotels.includes(row.Hotel)) return false;
+        if (row.Region && !currentUser.permissions.regions.includes('ALL') && 
+            !currentUser.permissions.regions.includes(row.Region)) return false;
+        return true;
+      });
+    }
+    
+    async function loadJSON(url) {
+      try {
+        const response = await fetch(url);
+        return await response.json();
+      } catch (error) {
+        console.error('Error loading JSON:', url, error);
+        return null;
+      }
+    }
+    
+    async function loadData() {
+      const [data, config] = await Promise.all([
+        loadJSON(CONFIG.data),
+        loadJSON(CONFIG.config)
+      ]);
+      
+      if (!data || !config) {
+        alert('Error al cargar los datos');
+        return;
+      }
+      
+      currentData = filterDataByPermissions(data);
+      currentConfig = config;
+      
+      initTabNavigation();
+      loadTabContent('overview');
+    }
+    
+    function loadTabContent(tabId) {
+      switch(tabId) {
+        case 'overview':
+          renderOverview();
+          break;
+        case 'financial':
+          renderFinancial();
+          break;
+        case 'projects':
+          renderProjects();
+          break;
+        case 'analytics':
+          renderAnalytics();
+          break;
+      }
+    }
+    
+    // ============================================
+    // RENDERIZADO DE TABS
+    // ============================================
+    
+    function renderOverview() {
+      renderKPIs('overviewKpis');
+      renderCharts('overviewCharts');
+      renderTable('overviewTable', currentData);
+    }
+    
+    function renderFinancial() {
+      // KPIs financieros
+      const container = document.getElementById('financialKpis');
+      if (!container.hasChildNodes()) {
+        container.innerHTML = '';
+        
+        const totalAmount = currentData.reduce((sum, row) => 
+          sum + parseFloat(String(row.Amount || 0).replace(/[, ]/g, '')), 0);
+        
+        const currentYear = new Date().getFullYear();
+        const currentYearData = currentData.filter(r => r.Date && r.Date.startsWith(currentYear.toString()));
+        const currentYearAmount = currentYearData.reduce((sum, row) => 
+          sum + parseFloat(String(row.Amount || 0).replace(/[, ]/g, '')), 0);
+        
+        const avgProject = currentData.length > 0 ? totalAmount / currentData.length : 0;
+        
+        container.innerHTML = `
+          <div class="kpi-card">
+            <div class="kpi-icon"><i class="bi bi-cash-stack"></i></div>
+            <div class="kpi-label">Total Invertido</div>
+            <div class="kpi-value">$${totalAmount.toLocaleString('es-ES', {maximumFractionDigits: 0})}</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon"><i class="bi bi-calendar-check"></i></div>
+            <div class="kpi-label">Invertido ${currentYear}</div>
+            <div class="kpi-value">$${currentYearAmount.toLocaleString('es-ES', {maximumFractionDigits: 0})}</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon"><i class="bi bi-calculator"></i></div>
+            <div class="kpi-label">Promedio por Proyecto</div>
+            <div class="kpi-value">$${avgProject.toLocaleString('es-ES', {maximumFractionDigits: 0})}</div>
+          </div>
+        `;
+      }
+      
+      renderCharts('financialCharts');
+    }
+    
+    function renderProjects() {
+      renderTable('projectsTable', currentData);
+    }
+    
+    function renderAnalytics() {
+      renderCharts('analyticsCharts');
+    }
+    
+    // ============================================
+    // FUNCIONES DE RENDERIZADO
+    // ============================================
+    
+    function renderKPIs(containerId) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = '';
+      
+      const cards = currentConfig.cards || [];
+      
+      cards.forEach((card, index) => {
+        let value = 0;
+        
+        if (card.type === 'sum') {
+          currentData.forEach(row => {
+            value += parseFloat(String(row[card.field_key] || 0).replace(/[, ]/g, ''));
+          });
+        } else if (card.type === 'count_rows') {
+          value = currentData.length;
+        } else if (card.type === 'count_distinct') {
+          const unique = new Set(currentData.map(row => row[card.field_key]));
+          value = unique.size;
+        }
+        
+        const icons = ['cash-stack', 'list-check', 'people', 'graph-up'];
+        const icon = icons[index % icons.length];
+        
+        container.innerHTML += `
+          <div class="kpi-card">
+            <div class="kpi-icon"><i class="bi bi-${icon}"></i></div>
+            <div class="kpi-label">${card.label || 'Métrica'}</div>
+            <div class="kpi-value">
+              ${card.format === 'currency' ? '$' + value.toLocaleString('es-ES', {maximumFractionDigits: 0}) : value.toLocaleString('es-ES')}
+            </div>
+          </div>
+        `;
+      });
+    }
+    
+    function renderCharts(containerId) {
+      const container = document.getElementById(containerId);
+      
+      if (container.hasChildNodes()) return;
+      
+      container.innerHTML = '';
+      
+      const charts = currentConfig.charts || [];
+      
+      charts.forEach((chartConfig, index) => {
+        const card = document.createElement('div');
+        card.className = 'chart-card';
+        card.innerHTML = `
+          <div class="chart-title">
+            <i class="bi bi-${chartConfig.type === 'bar' ? 'bar-chart-fill' : 'graph-up'} me-2"></i>
+            ${chartConfig.title || 'Gráfico'}
+          </div>
+          <div class="chart-container">
+            <canvas id="chart-${containerId}-${index}"></canvas>
+          </div>
+        `;
+        container.appendChild(card);
+        
+        setTimeout(() => createSimpleChart(`chart-${containerId}-${index}`, chartConfig), 100);
+      });
+    }
+    
+    function createSimpleChart(canvasId, config) {
+      const canvas = document.getElementById(canvasId);
+      if (!canvas) return;
+      
+      const ctx = canvas.getContext('2d');
+      const groupField = config.group_by_key;
+      const valueField = config.value_key;
+      
+      const grouped = {};
+      currentData.forEach(row => {
+        const key = row[groupField] || 'Unknown';
+        const value = parseFloat(String(row[valueField] || 0).replace(/[, ]/g, ''));
+        grouped[key] = (grouped[key] || 0) + value;
+      });
+      
+      const labels = Object.keys(grouped);
+      const values = Object.values(grouped);
+      
+      new Chart(ctx, {
+        type: config.type || 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: config.title,
+            data: values,
+            backgroundColor: '#1E90FF80',
+            borderColor: '#1E90FF',
+            borderWidth: 2,
+            tension: 0.4
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false }
+          },
+          scales: {
+            y: { beginAtZero: true }
+          }
+        }
+      });
+    }
+    
+    function renderTable(tableId, data) {
+      const table = $(`#${tableId}`);
+      
+      if (dataTables[tableId]) {
+        dataTables[tableId].destroy();
+      }
+      
+      if (data.length === 0) {
+        table.html('<p class="text-center text-muted">No hay datos disponibles</p>');
+        return;
+      }
+      
+      const columns = Object.keys(data[0]).map(key => ({ title: key, data: key }));
+      
+      dataTables[tableId] = table.DataTable({
+        data: data,
+        columns: columns,
+        pageLength: 25,
+        language: {
+          search: "Buscar:",
+          lengthMenu: "Mostrar _MENU_",
+          info: "Mostrando _START_ a _END_ de _TOTAL_",
+          paginate: { next: "Sig", previous: "Ant" }
+        }
+      });
+    }
+    
+    // ============================================
+    // INICIALIZACIÓN
+    // ============================================
+    
+    window.addEventListener('DOMContentLoaded', async () => {
+      await loadUsers();
+      checkSession();
+    });
+  </script>
+</body>
+</html>
